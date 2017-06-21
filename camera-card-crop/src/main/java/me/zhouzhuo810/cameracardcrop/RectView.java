@@ -75,9 +75,12 @@ public class RectView extends View {
         bgPaint.setAntiAlias(true);
     }
 
-    public void setMaskColor() {
-
+    public void setMaskColor(int color) {
+        this.bgColor = color;
+        bgPaint.setColor(bgColor);
     }
+
+
 
 
     public void setHintTextAndTextSize(String hint, int textSizeInPixel) {
@@ -168,5 +171,10 @@ public class RectView extends View {
 
     public int getCropHeight() {
         return (int) (bottomRect.top - topRect.bottom);
+    }
+
+    public void setCornerColor(int rectCornerColor) {
+        this.rectLineColor = rectCornerColor;
+        rectPaint.setColor(rectLineColor);
     }
 }

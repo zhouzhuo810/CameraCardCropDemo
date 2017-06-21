@@ -8,9 +8,6 @@ import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,7 +24,7 @@ import java.io.IOException;
  *
  * Created by zhouzhuo810 on 2017/6/15.
  */
-public class CropActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class CropActivity extends Activity  {
 
     private FrameLayout framelayout;
     private String imagePath;
@@ -44,7 +41,7 @@ public class CropActivity extends Activity implements ActivityCompat.OnRequestPe
     private boolean flashOpen = false;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -113,7 +110,8 @@ public class CropActivity extends Activity implements ActivityCompat.OnRequestPe
         });
 
         rectView = (RectView) findViewById(R.id.rect);
-        rectView.set
+        rectView.setMaskColor(maskColor);
+        rectView.setCornerColor(rectCornerColor);
         rectView.setHintTextAndTextSize((hint == null|| hint.length()==0 ? hint : CameraConfig.DEFAULT_HINT_TEXT), 30);
         rectView.setRatioAndWidthPercentOfScreen(ratioWidth, ratioHeight, percentWidth);
         rectView.setOnClickListener(new View.OnClickListener() {
@@ -181,8 +179,8 @@ public class CropActivity extends Activity implements ActivityCompat.OnRequestPe
         super.onResume();
 
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
             } else {
                 resumeCamera();
             }
@@ -199,7 +197,7 @@ public class CropActivity extends Activity implements ActivityCompat.OnRequestPe
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
