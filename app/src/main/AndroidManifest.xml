@@ -27,7 +27,6 @@
         <activity android:name="me.zhouzhuo810.cameracardcrop.CropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-
         </activity>
     </application>
 

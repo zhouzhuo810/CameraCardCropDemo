@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -42,12 +41,12 @@ public class RectView extends View {
         init(context, null);
     }
 
-    public RectView(Context context, @Nullable AttributeSet attrs) {
+    public RectView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public RectView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public RectView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
