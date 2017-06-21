@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <FrameLayout
+            android:id="@+id/camera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <me.zhouzhuo810.cameracardcrop.RectView
+            android:id="@+id/rect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/black">
+        <ImageView
+            android:id="@+id/iv_take"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="40px"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_take_photo"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/iv_back"
+            />
+        <ImageView
+            android:id="@+id/iv_flash"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/flash_on"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
+</FrameLayout>
