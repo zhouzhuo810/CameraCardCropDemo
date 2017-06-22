@@ -13,19 +13,21 @@ compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.0'
 ### step 1. Add Activity in your AndroidManifest.xml file.
 
 ```xml
-        <activity android:name="me.zhouzhuo810.cameracardcrop.CropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
+    <activity android:name="me.zhouzhuo810.cameracardcrop.CropActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+    </activity>
 ```
 
 ### step 2. Add permissions in your AndroidManifest.xml file.
 
 ```xml
-        <activity android:name="me.zhouzhuo810.cameracardcrop.CropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 ```
 
 ### step 3. Example for use.
