@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = "1.0.0"
+version = "1.0.1"
 
 android {
     resourcePrefix "zz_"
@@ -13,8 +13,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
     }
     buildTypes {
         release {
@@ -114,9 +114,9 @@ bintray {
         issueTrackerUrl = 'https://github.com/zhouzhuo810/CameraCardCrop/issues'
         publicDownloadNumbers = true
         version {
-            name = '1.0.0'
+            name = '1.0.1'
             desc = 'camera-card-crop release'
-            vcsTag = '1.0.0'
+            vcsTag = '1.0.1'
             attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
         }
     }
