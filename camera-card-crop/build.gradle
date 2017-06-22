@@ -24,9 +24,12 @@ android {
     }
 
     lintOptions {
-        abortOnError false
         checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
+
 }
 
 dependencies {
@@ -60,13 +63,13 @@ install {
     repositories.mavenInstaller {
         pom.project {
             packaging 'aar'
-            groupId 'me.zhouzhuo810' //自己定义的组名
+            groupId 'me.zhouzhuo810.cameracardcrop' //自己定义的组名
             artifactId 'camera-card-crop'
 
             name 'camera-card-crop'
             description 'A powerful framework to capture the card.'
             url 'https://github.com/zhouzhuo810/CameraCardCrop'
-            inceptionYear '2016'
+            inceptionYear '2017'
 
             licenses {
                 license {
