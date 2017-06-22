@@ -42,6 +42,7 @@ compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.0'
         intent.putExtra(CameraConfig.RECT_CORNER_COLOR, 0xff00ff00);
         intent.putExtra(CameraConfig.TEXT_COLOR, 0xffffffff);
         intent.putExtra(CameraConfig.HINT_TEXT, "请将方框对准证件拍照");
+        intent.putExtra(CameraConfig.IMAGE_PATH, Environment.getExternalStorageDirectory().getAbsolutePath()+"/CameraCardCrop/"+System.currentTimeMillis()+".jpg");
         startActivityForResult(intent, 0x01);
     }
 

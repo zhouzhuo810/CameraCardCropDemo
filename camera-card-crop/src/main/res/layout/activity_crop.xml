@@ -21,14 +21,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="140dp"
         android:layout_gravity="bottom"
         android:background="@android:color/black">
         <ImageView
             android:id="@+id/iv_take"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginTop="40px"
+            android:layout_marginTop="30px"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_take_photo"
             />
