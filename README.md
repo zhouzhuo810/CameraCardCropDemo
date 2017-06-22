@@ -9,9 +9,9 @@ compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.1'
 
 ## What does it look like ?
 
-![image1](https://github.com/zhouzhuo810/CameraCardCropDemo/cameracrop2.png)
+![image1](https://github.com/zhouzhuo810/CameraCardCropDemo/blob/master/cameracrop2.png)
 
-![image1](https://github.com/zhouzhuo810/CameraCardCropDemo/cameracrop1.png)
+![image1](https://github.com/zhouzhuo810/CameraCardCropDemo/blob/master/cameracrop1.png)
 
 
 ## Usage
