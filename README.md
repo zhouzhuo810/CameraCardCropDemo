@@ -11,13 +11,42 @@ compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.2'
 
 - Support Android 6.0 permissions.
 
-
 ## What does it look like ?
 
 ![image1](https://github.com/zhouzhuo810/CameraCardCropDemo/blob/master/cameracrop2.png)
 
 ![image1](https://github.com/zhouzhuo810/CameraCardCropDemo/blob/master/cameracrop1.png)
 
+
+## Notice
+
+```
+------------------------------------
+|                                   |
+|                                   |
+|                                   |
+|                                   |
+|                                   |
+|      mask                         |
+|                                   |
+|                width              |
+|    ------------------------       |
+|    |                       |      |
+|    |                height |      | screen height
+|    |         rect          |      |
+|    |                       |      |
+|    ------------------------       |
+|                                   |
+|                                   |
+|                                   |
+|                                   |
+|                                   |
+|            screen width           |
+-------------------------------------
+CameraConfig.RATIO_WIDTH = width
+CameraConfig.RATIO_HEIGHT = height
+CameraConfig.PERCENT_WIDTH = width / scrren width
+```
 
 ## Usage
 
