@@ -21,10 +21,10 @@ import java.io.IOException;
 
 /**
  * Activity for taking photo and crop.
- *
+ * <p>
  * Created by zhouzhuo810 on 2017/6/15.
  */
-public class CropActivity extends Activity  {
+public class CropActivity extends Activity {
 
     private FrameLayout framelayout;
     private String imagePath;
@@ -112,7 +112,7 @@ public class CropActivity extends Activity  {
         rectView = (RectView) findViewById(R.id.rect);
         rectView.setMaskColor(maskColor);
         rectView.setCornerColor(rectCornerColor);
-        rectView.setHintTextAndTextSize((hint == null|| hint.length()==0 ? hint : CameraConfig.DEFAULT_HINT_TEXT), 30);
+        rectView.setHintTextAndTextSize((hint == null || hint.length() == 0 ? hint : CameraConfig.DEFAULT_HINT_TEXT), 30);
         rectView.setRatioAndWidthPercentOfScreen(ratioWidth, ratioHeight, percentWidth);
         rectView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,9 +216,13 @@ public class CropActivity extends Activity  {
      */
     public synchronized void openLight() {
         if (camera != null) {
-            Camera.Parameters parameters = camera.getParameters();
-            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-            camera.setParameters(parameters);
+            try {
+                Camera.Parameters parameters = camera.getParameters();
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                camera.setParameters(parameters);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -227,9 +231,13 @@ public class CropActivity extends Activity  {
      */
     public synchronized void offLight() {
         if (camera != null) {
-            Camera.Parameters parameters = camera.getParameters();
-            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-            camera.setParameters(parameters);
+            try {
+                Camera.Parameters parameters = camera.getParameters();
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                camera.setParameters(parameters);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
