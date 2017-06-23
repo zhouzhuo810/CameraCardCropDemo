@@ -4,8 +4,13 @@
 ## Gradle
 
 ```
-compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.1'
+compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.2'
 ```
+
+## Features
+
+- Support Android 6.0 permissions.
+
 
 ## What does it look like ?
 
