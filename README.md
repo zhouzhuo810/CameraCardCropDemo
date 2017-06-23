@@ -21,6 +21,15 @@ compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.2'
 ## Notice
 
 ```
+card
+
+---------------------
+|       width       |
+|                   |
+|                   |height
+|                   |
+---------------------
+phone
 ------------------------------------
 |                                   |
 |                                   |
@@ -43,9 +52,9 @@ compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.2'
 |                                   |
 |            screen width           |
 -------------------------------------
-CameraConfig.RATIO_WIDTH = width
-CameraConfig.RATIO_HEIGHT = height
-CameraConfig.PERCENT_WIDTH = width / scrren width
+CameraConfig.RATIO_WIDTH = card's width
+CameraConfig.RATIO_HEIGHT = card's height
+CameraConfig.PERCENT_WIDTH = rect'swidth / screen's width
 ```
 
 ## Usage
