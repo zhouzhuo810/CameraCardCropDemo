@@ -30,8 +30,6 @@ public class CropActivity extends Activity {
     private String imagePath;
     private RectView rectView;
 
-    private boolean hasSurface;
-
     private Camera camera;
     private ImageView ivTake;
     private int ratioWidth;
@@ -39,6 +37,7 @@ public class CropActivity extends Activity {
     private float percentWidth;
 
     private boolean flashOpen = false;
+    private CameraView cameraView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,7 +172,6 @@ public class CropActivity extends Activity {
         rectView.updateRatio(w, h);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -190,8 +188,17 @@ public class CropActivity extends Activity {
     }
 
     private void resumeCamera() {
+        if (camera != null) {
+            camera.stopPreview();
+            camera.release();
+            if (cameraView != null) {
+                cameraView.setReleased(true);
+            }
+            camera = null;
+        }
         camera = CameraUtils.open();
-        CameraView cameraView = new CameraView(this, camera);
+        cameraView = new CameraView(this, camera);
+        cameraView.setReleased(false);
         framelayout.removeAllViews();
         framelayout.addView(cameraView);
     }
@@ -251,6 +258,9 @@ public class CropActivity extends Activity {
         if (camera != null) {
             camera.stopPreview();
             camera.release();
+            if (cameraView != null) {
+                cameraView.setReleased(true);
+            }
             camera = null;
         }
     }

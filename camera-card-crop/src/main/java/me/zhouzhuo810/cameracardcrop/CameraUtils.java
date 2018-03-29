@@ -56,13 +56,13 @@ public class CameraUtils {
     public static Camera open() {
         int numCameras = Camera.getNumberOfCameras();
         if (numCameras == 0) {
-            Log.e("XXX", "No cameras!");
+            Log.e("CameraCardCrop", "No cameras!");
             return null;
         }
         int cameraId = findCameraId(false);
         Camera camera;
         if (cameraId < numCameras && cameraId >= 0) {
-            Log.d("XXX", "Opening camera #" + cameraId);
+            Log.d("CameraCardCrop", "Opening camera #" + cameraId);
             camera = Camera.open(cameraId);
         } else {
             camera = Camera.open(0);

@@ -4,7 +4,7 @@
 ## Gradle
 
 ```
-compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.2'
+compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.3'
 ```
 
 ## Features
@@ -110,6 +110,7 @@ CameraConfig.PERCENT_WIDTH = rect'swidth / screen's width
 
 ## Log
 
+- 1.0.3 Fix camera.cancelAutoFocus() Exception after camera.release().
 - 1.0.2 Fix flashlight not support bugs.
 - 1.0.1 Revise layout size.
 

@@ -89,13 +89,15 @@ public class AutoFocusManager implements Camera.AutoFocusCallback {
     /**
      * 停止自动对焦
      */
-    public synchronized void stop() {
+    public synchronized void stop(boolean isReleased) {
         stopped = true;
         if (useAutoFocus) {
             cancelOutstandingTask();
             // Doesn't hurt to call this even if not focusing
             try {
-                camera.cancelAutoFocus();
+                if (camera != null && !isReleased) {
+                    camera.cancelAutoFocus();
+                }
             } catch (RuntimeException re) {
                 // Have heard RuntimeException reported in Android 4.0.x+; continue?
                 Log.e(TAG, "Unexpected exception while cancelling focusing", re);

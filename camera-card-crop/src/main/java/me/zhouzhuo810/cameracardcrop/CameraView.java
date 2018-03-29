@@ -21,6 +21,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Camera mCamera;
     private AutoFocusManager autoFocusManager;
+    private boolean released;
 
     public CameraView(Context context, Camera camera) {
         super(context);
@@ -38,7 +39,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         Camera.Parameters parameters = camera.getParameters();
         List<Camera.Size> previewSizes = parameters.getSupportedPreviewSizes();
         for (Camera.Size size : previewSizes) {
-            Log.e("XXX", "preview:"+size.width+","+size.height);
+//            Log.e("XXX", "preview:"+size.width+","+size.height);
             if (size.width / 16 == size.height / 9) {
                 parameters.setPreviewSize(size.width, size.height);
                 break;
@@ -46,7 +47,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         }
         List<Camera.Size> pictureSizes = parameters.getSupportedPictureSizes();
         for (Camera.Size size : pictureSizes) {
-            Log.e("XXX", "picture:"+size.width+","+size.height);
+//            Log.e("XXX", "picture:"+size.width+","+size.height);
             if (size.width / 16 == size.height / 9) {
                 parameters.setPictureSize(size.width, size.height);
                 break;
@@ -55,7 +56,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(CameraUtils.findCameraId(false), info);
         int rotation = info.orientation % 360;
-        Log.d("XXX", "Rotation :"+rotation);
+//        Log.d("XXX", "Rotation :"+rotation);
         parameters.setRotation(rotation);
         camera.setDisplayOrientation(90);
         parameters.setJpegQuality(100);
@@ -68,6 +69,14 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
 
     public CameraView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public boolean isReleased() {
+        return released;
+    }
+
+    public void setReleased(boolean released) {
+        this.released = released;
     }
 
     @Override
@@ -91,7 +100,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         try {
             mCamera.stopPreview();
             if (autoFocusManager != null) {
-                autoFocusManager.stop();
+                autoFocusManager.stop(released);
                 autoFocusManager = null;
             }
         } catch (Exception e) {
@@ -118,7 +127,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         if (autoFocusManager != null) {
-            autoFocusManager.stop();
+            autoFocusManager.stop(released);
             autoFocusManager = null;
         }
     }
