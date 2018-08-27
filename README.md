@@ -4,7 +4,7 @@
 ## Gradle
 
 ```
-compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.5'
+implementation 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.5'
 ```
 
 ## Features
