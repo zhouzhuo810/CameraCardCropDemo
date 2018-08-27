@@ -28,14 +28,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void takePhoto(View v) {
         Intent intent = new Intent(MainActivity.this, CropActivity.class);
-        intent.putExtra(CameraConfig.RATIO_WIDTH, 855);
-        intent.putExtra(CameraConfig.RATIO_HEIGHT, 541);
-        intent.putExtra(CameraConfig.PERCENT_WIDTH, 0.8f);
+//        intent.putExtra(CameraConfig.RATIO_WIDTH, 855);
+//        intent.putExtra(CameraConfig.RATIO_HEIGHT, 541);
+        intent.putExtra(CameraConfig.RATIO_WIDTH, 4);
+        intent.putExtra(CameraConfig.RATIO_HEIGHT, 3);
+        intent.putExtra(CameraConfig.PERCENT_LARGE, 0.8f);
         intent.putExtra(CameraConfig.MASK_COLOR, 0x2f000000);
+        intent.putExtra(CameraConfig.TOP_OFFSET, 0);
         intent.putExtra(CameraConfig.RECT_CORNER_COLOR, 0xff00ff00);
         intent.putExtra(CameraConfig.TEXT_COLOR, 0xffffffff);
         intent.putExtra(CameraConfig.HINT_TEXT, "请将方框对准证件拍照");
-        intent.putExtra(CameraConfig.IMAGE_PATH, Environment.getExternalStorageDirectory().getAbsolutePath()+"/CameraCardCrop/"+System.currentTimeMillis()+".jpg");
+        intent.putExtra(CameraConfig.IMAGE_PATH, Environment.getExternalStorageDirectory().getAbsolutePath() + "/CameraCardCrop/" + System.currentTimeMillis() + ".jpg");
         startActivityForResult(intent, 0x01);
     }
 
@@ -45,12 +48,10 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0x01) {
                 String path = data.getStringExtra(CameraConfig.IMAGE_PATH);
-                ivPic.setImageURI(Uri.parse("file://"+path));
+                ivPic.setImageURI(Uri.parse("file://" + path));
             }
         }
     }
-
-
 
 
 }

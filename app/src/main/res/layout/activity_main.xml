@@ -10,9 +10,9 @@
         android:gravity="center"
         android:onClick="takePhoto"
         android:text="take photo" />
+
     <ImageView
         android:id="@+id/iv_pic"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 </LinearLayout>

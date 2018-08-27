@@ -34,7 +34,8 @@ public class CropActivity extends Activity {
     private ImageView ivTake;
     private int ratioWidth;
     private int ratioHeight;
-    private float percentWidth;
+    private float percentLarge;
+    private int topOffset;
 
     private boolean flashOpen = false;
     private CameraView cameraView;
@@ -67,7 +68,8 @@ public class CropActivity extends Activity {
 
         ratioWidth = getIntent().getIntExtra(CameraConfig.RATIO_WIDTH, CameraConfig.DEFAULT_RATIO_WIDTH);
         ratioHeight = getIntent().getIntExtra(CameraConfig.RATIO_HEIGHT, CameraConfig.DEFAULT_RATIO_HEIGHT);
-        percentWidth = getIntent().getFloatExtra(CameraConfig.PERCENT_WIDTH, CameraConfig.DEFAULT_PERCENT_WIDTH);
+        topOffset = getIntent().getIntExtra(CameraConfig.TOP_OFFSET, CameraConfig.DEFAULT_TOP_OFFSET);
+        percentLarge = getIntent().getFloatExtra(CameraConfig.PERCENT_LARGE, CameraConfig.DEFAULT_PERCENT_LARGE);
         String noSupportHint = getIntent().getStringExtra(CameraConfig.NO_CAMERA_SUPPORT_HINT);
         imagePath = getIntent().getStringExtra(CameraConfig.IMAGE_PATH);
         String hint = getIntent().getStringExtra(CameraConfig.HINT_TEXT);
@@ -112,7 +114,8 @@ public class CropActivity extends Activity {
         rectView.setMaskColor(maskColor);
         rectView.setCornerColor(rectCornerColor);
         rectView.setHintTextAndTextSize((hint == null || hint.length() == 0 ? hint : CameraConfig.DEFAULT_HINT_TEXT), 30);
-        rectView.setRatioAndWidthPercentOfScreen(ratioWidth, ratioHeight, percentWidth);
+        rectView.setTopOffset(topOffset);
+        rectView.setRatioAndPercentOfScreen(ratioWidth, ratioHeight, percentLarge);
         rectView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

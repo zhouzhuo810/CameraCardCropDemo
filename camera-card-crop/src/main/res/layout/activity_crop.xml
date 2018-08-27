@@ -2,12 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <FrameLayout
             android:id="@+id/camera"
             android:layout_width="match_parent"
@@ -21,38 +21,38 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="100dp"
         android:layout_gravity="bottom"
         android:background="@android:color/black">
+
         <ImageView
             android:id="@+id/iv_take"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginTop="30px"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_take_photo"
-            />
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_take_photo" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_height="60dp">
+
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="25dp"
-            android:src="@drawable/iv_back"
-            />
+            android:src="@drawable/iv_back" />
+
         <ImageView
             android:id="@+id/iv_flash"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginRight="25dp"
-            android:src="@drawable/flash_on"
             android:layout_alignParentRight="true"
-            />
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:src="@drawable/flash_on" />
     </RelativeLayout>
 
 </FrameLayout>

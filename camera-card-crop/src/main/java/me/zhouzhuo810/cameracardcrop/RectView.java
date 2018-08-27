@@ -21,6 +21,7 @@ public class RectView extends View {
     private int rectLineColor = 0xffffffff;
     private int textColor = 0xffffffff;
     private int textSize = 30;
+    private int topOffset = 0;
 
     private Paint bgPaint;
     private Paint rectPaint;
@@ -81,25 +82,45 @@ public class RectView extends View {
     }
 
 
-
-
     public void setHintTextAndTextSize(String hint, int textSizeInPixel) {
         this.hintText = hint;
         this.textSize = textSizeInPixel;
         textPaint.setTextSize(textSize);
     }
 
-    public void setRatioAndWidthPercentOfScreen(int w, int h, float percent) {
+    public void setRatioAndPercentOfScreen(int w, int h, float percent) {
         this.percent = percent;
-        this.width = (int) (ScreenUtils.getScreenWidth(getContext()) * percent);
-        this.height = width * h / w;
+        if (w >= h) {
+            this.width = (int) (ScreenUtils.getScreenWidth(getContext()) * percent);
+            this.height = width * h / w;
+        } else {
+            this.height = (int) ((ScreenUtils.getScreenHeight(getContext()) - dp2px(100f)) * percent);
+            this.width = height * w / h;
+        }
+
 //        Log.e("XXX", "w="+w+",h="+h+",percnet="+percent+",width="+width+",height="+height);
         invalidate();
     }
 
+    /**
+     * dp转换成px
+     */
+    private int dp2px(float dpValue) {
+        float scale = getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+
     public void updateRatio(int w, int h) {
         this.height = width * h / w;
         invalidate();
+    }
+
+    public void setTopOffset(int topOffset) {
+        this.topOffset = topOffset;
+        if (topOffset == 0) {
+            this.topOffset = -dp2px(40) / 2;
+        }
     }
 
     @Override
@@ -121,40 +142,39 @@ public class RectView extends View {
 
     private void drawCorner(Canvas canvas) {
         Path leftTopPath = new Path();
-        leftTopPath.moveTo(leftRect.right+20, leftRect.top);
+        leftTopPath.moveTo(leftRect.right + 20, leftRect.top);
         leftTopPath.lineTo(leftRect.right, leftRect.top);
         leftTopPath.lineTo(leftRect.right, leftRect.top + 20);
         canvas.drawPath(leftTopPath, cornerPaint);
 
         Path rightTop = new Path();
-        rightTop.moveTo(rightRect.left-20, rightRect.top);
+        rightTop.moveTo(rightRect.left - 20, rightRect.top);
         rightTop.lineTo(rightRect.left, rightRect.top);
         rightTop.lineTo(rightRect.left, rightRect.top + 20);
         canvas.drawPath(rightTop, cornerPaint);
 
         Path leftBottom = new Path();
-        leftBottom.moveTo(leftRect.right+20, leftRect.bottom);
+        leftBottom.moveTo(leftRect.right + 20, leftRect.bottom);
         leftBottom.lineTo(leftRect.right, leftRect.bottom);
         leftBottom.lineTo(leftRect.right, leftRect.bottom - 20);
         canvas.drawPath(leftBottom, cornerPaint);
 
         Path rightBottom = new Path();
-        rightBottom.moveTo(rightRect.left-20, rightRect.bottom);
+        rightBottom.moveTo(rightRect.left - 20, rightRect.bottom);
         rightBottom.lineTo(rightRect.left, rightRect.bottom);
-        rightBottom.lineTo(rightRect.left, rightRect.bottom -20);
+        rightBottom.lineTo(rightRect.left, rightRect.bottom - 20);
         canvas.drawPath(rightBottom, cornerPaint);
     }
 
     private void drawBgWithoutRect(Canvas canvas) {
-        topRect = new RectF(0, 0, getWidth(), (getHeight()-height)/2);
-        leftRect = new RectF(0, (getHeight()-height)/2, (getWidth()-width)/2, (getHeight()+height)/2);
-        rightRect = new RectF((getWidth()+width)/2, (getHeight()-height)/2, getWidth(), (getHeight()+height)/2);
-        bottomRect = new RectF(0, (getHeight()+height)/2, getWidth(), getHeight());
+        topRect = new RectF(0, 0 + topOffset, getWidth(), (getHeight() - height) / 2 + topOffset);
+        leftRect = new RectF(0, (getHeight() - height) / 2 + topOffset, (getWidth() - width) / 2, (getHeight() + height) / 2 + topOffset);
+        rightRect = new RectF((getWidth() + width) / 2, (getHeight() - height) / 2 + topOffset, getWidth(), (getHeight() + height) / 2 + topOffset);
+        bottomRect = new RectF(0, (getHeight() + height) / 2 + topOffset, getWidth(), getHeight());
         canvas.drawRect(topRect, bgPaint);
         canvas.drawRect(leftRect, bgPaint);
         canvas.drawRect(rightRect, bgPaint);
         canvas.drawRect(bottomRect, bgPaint);
-
     }
 
     public int getCropLeft() {
@@ -166,7 +186,7 @@ public class RectView extends View {
     }
 
     public int getCropWidth() {
-        return (int) (rightRect.left-leftRect.right);
+        return (int) (rightRect.left - leftRect.right);
     }
 
     public int getCropHeight() {
