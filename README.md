@@ -4,7 +4,7 @@
 ## Gradle
 
 ```
-compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.4'
+compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.5'
 ```
 
 ## Features
@@ -54,7 +54,11 @@ phone
 -------------------------------------
 CameraConfig.RATIO_WIDTH = card's width
 CameraConfig.RATIO_HEIGHT = card's height
-CameraConfig.PERCENT_WIDTH = rect'swidth / screen's width
+if CameraConfig.RATIO_WIDTH >= CameraConfig.RATIO_HEIGHT {
+    CameraConfig.PERCENT_LARGE = rect's width / screen's width
+} else {
+    CameraConfig.PERCENT_LARGE = rect's height / screen's height
+}
 ```
 
 ## Usage
@@ -86,7 +90,7 @@ CameraConfig.PERCENT_WIDTH = rect'swidth / screen's width
         Intent intent = new Intent(MainActivity.this, CropActivity.class);
         intent.putExtra(CameraConfig.RATIO_WIDTH, 855);
         intent.putExtra(CameraConfig.RATIO_HEIGHT, 541);
-        intent.putExtra(CameraConfig.PERCENT_WIDTH, 0.8f);
+        intent.putExtra(CameraConfig.PERCENT_LARGE, 0.8f);
         intent.putExtra(CameraConfig.MASK_COLOR, 0x2f000000);
         intent.putExtra(CameraConfig.RECT_CORNER_COLOR, 0xff00ff00);
         intent.putExtra(CameraConfig.TEXT_COLOR, 0xffffffff);
