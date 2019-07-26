@@ -112,6 +112,12 @@ if CameraConfig.RATIO_WIDTH >= CameraConfig.RATIO_HEIGHT {
 
 ```
 
+## Proguards
+
+```
+-keep class me.zhouzhuo810.cameracardcrop.** {*;}
+```
+
 ## Log
 
 - 1.0.3 Fix camera.cancelAutoFocus() Exception after camera.release().
