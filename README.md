@@ -4,7 +4,16 @@
 ## Gradle
 
 ```
-implementation 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.5'
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
+	dependencies {
+	        implementation 'com.github.zhouzhuo810:CameraCardCropDemo:1.0.5'
+	}
 ```
 
 ## Features
@@ -55,9 +64,9 @@ phone
 CameraConfig.RATIO_WIDTH = card's width
 CameraConfig.RATIO_HEIGHT = card's height
 if CameraConfig.RATIO_WIDTH >= CameraConfig.RATIO_HEIGHT {
-    CameraConfig.PERCENT_LARGE = rect's width / screen's width
+    CameraConfig.PERCENT_LARGE = rect's width * 1.0f / screen's width
 } else {
-    CameraConfig.PERCENT_LARGE = rect's height / screen's height
+    CameraConfig.PERCENT_LARGE = rect's height * 1.0f / screen's height
 }
 ```
 
