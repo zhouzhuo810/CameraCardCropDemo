@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.io.File;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import me.zhouzhuo810.cameracardcrop.CameraConfig;
 import me.zhouzhuo810.cameracardcrop.CropActivity;
 
@@ -47,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0x01) {
                 String path = data.getStringExtra(CameraConfig.IMAGE_PATH);
-                ivPic.setImageURI(Uri.parse("file://" + path));
+                Uri uriForFile = FileProvider.getUriForFile(MainActivity.this,
+                    BuildConfig.APPLICATION_ID + ".fileprovider", new File(path));
+                ivPic.setImageURI(uriForFile);
             }
         }
     }
