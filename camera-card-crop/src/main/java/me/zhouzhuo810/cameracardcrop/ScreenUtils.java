@@ -7,7 +7,9 @@ import android.util.DisplayMetrics;
 
 /**
  * Tools for getting screen size
- * Created by zhouzhuo810 on 2017/6/15.
+ *
+ * @author zhouzhuo810
+ * @date 2017/6/15
  */
 public class ScreenUtils {
 

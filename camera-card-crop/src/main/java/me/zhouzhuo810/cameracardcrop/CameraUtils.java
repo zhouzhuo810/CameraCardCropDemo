@@ -7,9 +7,10 @@ import android.util.Log;
 
 /**
  * camera tools
- * Created by zhouzhuo810 on 2017/6/15.
+ *
+ * @author zhouzhuo810
+ * @date 2017/6/15
  */
-
 public class CameraUtils {
 
     /**
@@ -40,7 +41,8 @@ public class CameraUtils {
         final int cameraCount = Camera.getNumberOfCameras();
         for (int i = 0; i < cameraCount; i++) {
             Camera.getCameraInfo(i, cameraInfo);
-            if ((front&&cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) || (!front&&cameraInfo.facing==Camera.CameraInfo.CAMERA_FACING_BACK)) {
+            if ((front&&cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT)
+                || (!front&&cameraInfo.facing==Camera.CameraInfo.CAMERA_FACING_BACK)) {
                 return i;
             }
         }

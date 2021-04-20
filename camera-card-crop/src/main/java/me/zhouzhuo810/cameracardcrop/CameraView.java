@@ -15,7 +15,9 @@ import me.zhouzhuo810.cameracardcrop.manager.AutoFocusManager;
 
 /**
  * Preview of camera
- * Created by zhouzhuo810 on 2017/6/15.
+ *
+ * @author zhouzhuo810
+ * @date 2017/6/15
  */
 public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -39,7 +41,6 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         Camera.Parameters parameters = camera.getParameters();
         List<Camera.Size> previewSizes = parameters.getSupportedPreviewSizes();
         for (Camera.Size size : previewSizes) {
-//            Log.e("XXX", "preview:"+size.width+","+size.height);
             if (size.width / 16 == size.height / 9) {
                 parameters.setPreviewSize(size.width, size.height);
                 break;
@@ -47,7 +48,6 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         }
         List<Camera.Size> pictureSizes = parameters.getSupportedPictureSizes();
         for (Camera.Size size : pictureSizes) {
-//            Log.e("XXX", "picture:"+size.width+","+size.height);
             if (size.width / 16 == size.height / 9) {
                 parameters.setPictureSize(size.width, size.height);
                 break;
@@ -56,7 +56,6 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(CameraUtils.findCameraId(false), info);
         int rotation = info.orientation % 360;
-//        Log.d("XXX", "Rotation :"+rotation);
         parameters.setRotation(rotation);
         camera.setDisplayOrientation(90);
         parameters.setJpegQuality(100);

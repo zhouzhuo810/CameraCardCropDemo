@@ -30,7 +30,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_take_photo" />
+            android:src="@drawable/ccc_ic_take_photo" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -43,7 +43,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="25dp"
-            android:src="@drawable/iv_back" />
+            android:src="@drawable/ccc_iv_back" />
 
         <ImageView
             android:id="@+id/iv_flash"
@@ -52,7 +52,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="25dp"
-            android:src="@drawable/flash_on" />
+            android:src="@drawable/ccc_flash_on" />
     </RelativeLayout>
 
 </FrameLayout>

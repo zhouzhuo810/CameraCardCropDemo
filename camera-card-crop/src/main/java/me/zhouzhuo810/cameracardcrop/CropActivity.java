@@ -22,7 +22,9 @@ import java.io.IOException;
 /**
  * Activity for taking photo and crop.
  * <p>
- * Created by zhouzhuo810 on 2017/6/15.
+ *
+ * @author zhouzhuo810
+ * @date 2017/6/15
  */
 public class CropActivity extends Activity {
 
@@ -64,7 +66,7 @@ public class CropActivity extends Activity {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
 
-        setContentView(R.layout.activity_crop);
+        setContentView(R.layout.ccc_activity_crop);
 
         ratioWidth = getIntent().getIntExtra(CameraConfig.RATIO_WIDTH, CameraConfig.DEFAULT_RATIO_WIDTH);
         ratioHeight = getIntent().getIntExtra(CameraConfig.RATIO_HEIGHT, CameraConfig.DEFAULT_RATIO_HEIGHT);
@@ -100,10 +102,10 @@ public class CropActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (flashOpen) {
-                    ivFlash.setBackgroundResource(R.drawable.flash_on);
+                    ivFlash.setBackgroundResource(R.drawable.ccc_flash_on);
                     offLight();
                 } else {
-                    ivFlash.setBackgroundResource(R.drawable.flash_off);
+                    ivFlash.setBackgroundResource(R.drawable.ccc_flash_off);
                     openLight();
                 }
                 flashOpen = !flashOpen;
@@ -138,11 +140,12 @@ public class CropActivity extends Activity {
     private void takePhoto() {
 
         try {
-            camera.takePicture(null, null, new Camera.PictureCallback() {
+            camera.takePicture(null, null, null, new Camera.PictureCallback() {
                 @Override
                 public void onPictureTaken(byte[] data, Camera camera) {
-                    if (imagePath == null)
+                    if (imagePath == null) {
                         imagePath = CameraConfig.DEFAULT_IMAGE_PATH + System.currentTimeMillis() + ".jpg";
+                    }
                     File file = new File(imagePath);
                     if (file.exists()) {
                         file.delete();

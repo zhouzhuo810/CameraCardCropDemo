@@ -1,19 +1,18 @@
 package me.zhouzhuo810.cameracardcropdemo;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import java.io.File;
-
+import androidx.appcompat.app.AppCompatActivity;
 import me.zhouzhuo810.cameracardcrop.CameraConfig;
 import me.zhouzhuo810.cameracardcrop.CropActivity;
 
+/**
+ * @author zhouzhuo810
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ImageView ivPic;
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(CameraConfig.RECT_CORNER_COLOR, 0xff00ff00);
         intent.putExtra(CameraConfig.TEXT_COLOR, 0xffffffff);
         intent.putExtra(CameraConfig.HINT_TEXT, "请将方框对准证件拍照");
-        intent.putExtra(CameraConfig.IMAGE_PATH, Environment.getExternalStorageDirectory().getAbsolutePath() + "/CameraCardCrop/" + System.currentTimeMillis() + ".jpg");
+        intent.putExtra(CameraConfig.IMAGE_PATH, getApplicationContext().getExternalCacheDir().getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg");
         startActivityForResult(intent, 0x01);
     }
 

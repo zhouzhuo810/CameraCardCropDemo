@@ -13,9 +13,10 @@ import java.io.IOException;
 
 /**
  * image tools
- * Created by zhouzhuo810 on 2017/6/16.
+ *
+ * @author zhouzhuo810
+ * @date 2017/6/16
  */
-
 public class BitmapUtils {
 
     public static Bitmap setBitmapSize(Bitmap bitmap, int newWidth, int newHeight) {
@@ -62,8 +63,7 @@ public class BitmapUtils {
         try {
             ExifInterface exifInterface = new ExifInterface(path);
             int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL);
-            int degrees = getExifRotateDegrees(orientation);
-            return degrees;
+            return getExifRotateDegrees(orientation);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,6 +85,8 @@ public class BitmapUtils {
             case ExifInterface.ORIENTATION_ROTATE_270:
                 degrees = 270;
                 break;
+            default:
+                break;
         }
         return degrees;
     }
@@ -97,12 +99,12 @@ public class BitmapUtils {
         int height = origin.getHeight();
         Matrix matrix = new Matrix();
         matrix.setRotate(alpha);
-        Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
-        if (newBM.equals(origin)) {
-            return newBM;
+        Bitmap bitmap = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
+        if (bitmap.equals(origin)) {
+            return bitmap;
         }
         origin.recycle();
-        return newBM;
+        return bitmap;
     }
 
 

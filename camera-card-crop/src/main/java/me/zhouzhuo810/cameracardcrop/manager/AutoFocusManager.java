@@ -9,9 +9,10 @@ import java.util.Collection;
 import java.util.concurrent.RejectedExecutionException;
 
 /**
- * Created by Eric on 2017/3/20.
+ *
+ * @author Eric
+ * @date 2017/3/20
  */
-
 public class AutoFocusManager implements Camera.AutoFocusCallback {
     private static final String TAG = AutoFocusManager.class.getSimpleName();
     private static final long AUTO_FOCUS_INTERVAL_MS = 2000L;

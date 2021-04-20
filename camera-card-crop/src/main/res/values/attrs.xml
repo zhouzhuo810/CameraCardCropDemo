@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="PreviewBorderView">
-        <attr name="tipText" format="string" />
-        <attr name="tipTextColor" format="color|reference" />
-        <attr name="tipTextSize" format="dimension" />
-        <attr name="borderType">
+        <attr name="cccTipText" format="string" />
+        <attr name="cccTipTextColor" format="color|reference" />
+        <attr name="cccTipTextSize" format="dimension" />
+        <attr name="cccBorderType">
             <enum name="vertical" value="0" />
             <enum name="horizontal" value="1" />
         </attr>
