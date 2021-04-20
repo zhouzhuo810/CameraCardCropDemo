@@ -27,35 +27,36 @@ import java.io.IOException;
  * @date 2017/6/15
  */
 public class CropActivity extends Activity {
-
+    
     private FrameLayout framelayout;
     private String imagePath;
     private RectView rectView;
-
+    
     private Camera camera;
     private ImageView ivTake;
     private int ratioWidth;
     private int ratioHeight;
     private float percentLarge;
     private int topOffset;
-
+    private boolean needStoragePermission;
+    
     private boolean flashOpen = false;
     private CameraView cameraView;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // Android 5.0 +
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
             window.setNavigationBarColor(Color.TRANSPARENT);
@@ -65,9 +66,10 @@ public class CropActivity extends Activity {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-
+        
         setContentView(R.layout.ccc_activity_crop);
-
+    
+        needStoragePermission = getIntent().getBooleanExtra(CameraConfig.NEED_WRITE_STORAGE_PERMISSION, CameraConfig.DEFAULT_NEED_WRITE_STORAGE_PERMISSION);
         ratioWidth = getIntent().getIntExtra(CameraConfig.RATIO_WIDTH, CameraConfig.DEFAULT_RATIO_WIDTH);
         ratioHeight = getIntent().getIntExtra(CameraConfig.RATIO_HEIGHT, CameraConfig.DEFAULT_RATIO_HEIGHT);
         topOffset = getIntent().getIntExtra(CameraConfig.TOP_OFFSET, CameraConfig.DEFAULT_TOP_OFFSET);
@@ -77,8 +79,8 @@ public class CropActivity extends Activity {
         String hint = getIntent().getStringExtra(CameraConfig.HINT_TEXT);
         int maskColor = getIntent().getIntExtra(CameraConfig.MASK_COLOR, CameraConfig.DEFAULT_MASK_COLOR);
         int rectCornerColor = getIntent().getIntExtra(CameraConfig.RECT_CORNER_COLOR, CameraConfig.DEFAULT_RECT_CORNER_COLOR);
-
-
+        
+        
         ivTake = (ImageView) findViewById(R.id.iv_take);
         ivTake.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,9 +88,9 @@ public class CropActivity extends Activity {
                 takePhoto();
             }
         });
-
+        
         framelayout = (FrameLayout) findViewById(R.id.camera);
-
+        
         ImageView ivBack = (ImageView) findViewById(R.id.iv_back);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +98,7 @@ public class CropActivity extends Activity {
                 finish();
             }
         });
-
+        
         final ImageView ivFlash = (ImageView) findViewById(R.id.iv_flash);
         ivFlash.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +113,7 @@ public class CropActivity extends Activity {
                 flashOpen = !flashOpen;
             }
         });
-
+        
         rectView = (RectView) findViewById(R.id.rect);
         rectView.setMaskColor(maskColor);
         rectView.setCornerColor(rectCornerColor);
@@ -130,21 +132,22 @@ public class CropActivity extends Activity {
                 }
             }
         });
-
+        
         if (!CameraUtils.checkCameraHardware(this)) {
             Toast.makeText(CropActivity.this, noSupportHint == null ? CameraConfig.DEFAULT_NO_CAMERA_SUPPORT_HINT : noSupportHint, Toast.LENGTH_SHORT).show();
             finish();
         }
     }
-
+    
     private void takePhoto() {
-
+        
         try {
             camera.takePicture(null, null, null, new Camera.PictureCallback() {
                 @Override
                 public void onPictureTaken(byte[] data, Camera camera) {
                     if (imagePath == null) {
-                        imagePath = CameraConfig.DEFAULT_IMAGE_PATH + System.currentTimeMillis() + ".jpg";
+                        //如果没有配置存放路径，默认放到私有目录
+                        imagePath = CropActivity.this.getExternalCacheDir().getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
                     }
                     File file = new File(imagePath);
                     if (file.exists()) {
@@ -165,34 +168,43 @@ public class CropActivity extends Activity {
                         setResult(RESULT_OK, intent);
                         finish();
                     }
-
+                    
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
     }
-
+    
     public void setRectRatio(int w, int h) {
         rectView.updateRatio(w, h);
     }
-
+    
     @Override
     protected void onResume() {
         super.onResume();
-
+        
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
+            if (needStoragePermission) {
+                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
+                } else {
+                    resumeCamera();
+                }
             } else {
-                resumeCamera();
+                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, 0x01);
+                } else {
+                    resumeCamera();
+                }
             }
+         
         } else {
             resumeCamera();
         }
     }
-
+    
     private void resumeCamera() {
         if (camera != null) {
             camera.stopPreview();
@@ -202,28 +214,39 @@ public class CropActivity extends Activity {
             }
             camera = null;
         }
-        camera = CameraUtils.open();
-        cameraView = new CameraView(this, camera);
-        cameraView.setReleased(false);
-        framelayout.removeAllViews();
-        framelayout.addView(cameraView);
+        try {
+            camera = CameraUtils.open();
+            cameraView = new CameraView(this, camera);
+            cameraView.setReleased(false);
+            framelayout.removeAllViews();
+            framelayout.addView(cameraView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "无法打开后置摄像头", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
-
+    
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults.length > 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (grantResults != null && grantResults.length > 0) {
+            boolean allGranted = true;
+            for (int grantResult : grantResults) {
+                allGranted &= (grantResult == PackageManager.PERMISSION_GRANTED);
+            }
+            if (allGranted) {
                 resumeCamera();
             } else {
-                Toast.makeText(CropActivity.this, "No Camera Permission.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CropActivity.this, "No Permission.", Toast.LENGTH_SHORT).show();
+                finish();
             }
         } else {
             resumeCamera();
         }
     }
-
-
+    
+    
     /**
      * 打开闪光灯
      */
@@ -238,7 +261,7 @@ public class CropActivity extends Activity {
             }
         }
     }
-
+    
     /**
      * 关闭闪光灯
      */
@@ -253,13 +276,13 @@ public class CropActivity extends Activity {
             }
         }
     }
-
+    
     @Override
     protected void onPause() {
         super.onPause();
         releaseCamera();
     }
-
+    
     private void releaseCamera() {
         if (camera != null) {
             camera.stopPreview();
@@ -270,6 +293,6 @@ public class CropActivity extends Activity {
             camera = null;
         }
     }
-
-
+    
+    
 }

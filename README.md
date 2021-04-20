@@ -12,7 +12,7 @@
 	}
 
 	dependencies {
-	        implementation 'com.github.zhouzhuo810:CameraCardCropDemo:1.0.5'
+	        implementation 'com.github.zhouzhuo810:CameraCardCropDemo:1.0.6'
 	}
 ```
 
@@ -128,6 +128,9 @@ if CameraConfig.RATIO_WIDTH >= CameraConfig.RATIO_HEIGHT {
 ```
 
 ## Log
+
+- 1.0.6 将权限声明放到库里面，免得开发者忘记加.
+新增`CameraConfig.NEED_WRITE_STORAGE_PERMISSION`配置项，默认false，用于控制是否申请写存储权限，如果图片存在私有目录，是不需要申请这个权限的。
 
 - 1.0.3 Fix camera.cancelAutoFocus() Exception after camera.release().
 - 1.0.2 Fix flashlight not support bugs.

@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, CropActivity.class);
 //        intent.putExtra(CameraConfig.RATIO_WIDTH, 855);
 //        intent.putExtra(CameraConfig.RATIO_HEIGHT, 541);
+        intent.putExtra(CameraConfig.NEED_WRITE_STORAGE_PERMISSION, false);
         intent.putExtra(CameraConfig.RATIO_WIDTH, 4);
         intent.putExtra(CameraConfig.RATIO_HEIGHT, 3);
         intent.putExtra(CameraConfig.PERCENT_LARGE, 0.8f);
