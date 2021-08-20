@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -42,9 +43,15 @@ public class BitmapUtils {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         Bitmap photo = BitmapFactory.decodeByteArray(data, 0, data.length,options);
+        //图片竖屏
         photo = rotateBitmap(photo,degrees);
         int scW = ScreenUtils.getScreenWidth(context);
         int scH = ScreenUtils.getScreenHeight(context);
+        if (scW > scH) {
+            int c = scW;
+            scW = scH;
+            scH = c;
+        }
         float ratio = scW  * 1.0f / photo.getWidth();
         photo = Bitmap.createScaledBitmap(photo, (int)(photo.getWidth() * ratio), (int)(photo.getHeight() *ratio), true);
         if (isNeedCut) {
@@ -91,14 +98,14 @@ public class BitmapUtils {
         return degrees;
     }
 
-    private static Bitmap rotateBitmap(Bitmap origin, float alpha) {
+    private static Bitmap rotateBitmap(Bitmap origin, float degrees) {
         if (origin == null) {
             return null;
         }
         int width = origin.getWidth();
         int height = origin.getHeight();
         Matrix matrix = new Matrix();
-        matrix.setRotate(alpha);
+        matrix.setRotate(degrees);
         Bitmap bitmap = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
         if (bitmap.equals(origin)) {
             return bitmap;

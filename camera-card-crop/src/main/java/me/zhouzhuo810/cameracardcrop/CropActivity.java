@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -68,7 +69,7 @@ public class CropActivity extends Activity {
         }
         
         setContentView(R.layout.ccc_activity_crop);
-    
+        
         needStoragePermission = getIntent().getBooleanExtra(CameraConfig.NEED_WRITE_STORAGE_PERMISSION, CameraConfig.DEFAULT_NEED_WRITE_STORAGE_PERMISSION);
         ratioWidth = getIntent().getIntExtra(CameraConfig.RATIO_WIDTH, CameraConfig.DEFAULT_RATIO_WIDTH);
         ratioHeight = getIntent().getIntExtra(CameraConfig.RATIO_HEIGHT, CameraConfig.DEFAULT_RATIO_HEIGHT);
@@ -81,7 +82,7 @@ public class CropActivity extends Activity {
         int rectCornerColor = getIntent().getIntExtra(CameraConfig.RECT_CORNER_COLOR, CameraConfig.DEFAULT_RECT_CORNER_COLOR);
         
         
-        ivTake = (ImageView) findViewById(R.id.iv_take);
+        ivTake = findViewById(R.id.iv_take);
         ivTake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,9 +90,9 @@ public class CropActivity extends Activity {
             }
         });
         
-        framelayout = (FrameLayout) findViewById(R.id.camera);
+        framelayout = findViewById(R.id.camera);
         
-        ImageView ivBack = (ImageView) findViewById(R.id.iv_back);
+        ImageView ivBack = findViewById(R.id.iv_back);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +100,7 @@ public class CropActivity extends Activity {
             }
         });
         
-        final ImageView ivFlash = (ImageView) findViewById(R.id.iv_flash);
+        final ImageView ivFlash = findViewById(R.id.iv_flash);
         ivFlash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,10 +115,10 @@ public class CropActivity extends Activity {
             }
         });
         
-        rectView = (RectView) findViewById(R.id.rect);
+        rectView = findViewById(R.id.rect);
         rectView.setMaskColor(maskColor);
         rectView.setCornerColor(rectCornerColor);
-        rectView.setHintTextAndTextSize((hint == null || hint.length() == 0 ? hint : CameraConfig.DEFAULT_HINT_TEXT), 30);
+        rectView.setHintTextAndTextSize((hint == null || hint.length() == 0 ? CameraConfig.DEFAULT_HINT_TEXT : hint), 30);
         rectView.setTopOffset(topOffset);
         rectView.setRatioAndPercentOfScreen(ratioWidth, ratioHeight, percentLarge);
         rectView.setOnClickListener(new View.OnClickListener() {
@@ -199,7 +200,7 @@ public class CropActivity extends Activity {
                     resumeCamera();
                 }
             }
-         
+            
         } else {
             resumeCamera();
         }
@@ -294,5 +295,15 @@ public class CropActivity extends Activity {
         }
     }
     
+    /**
+     * 是否横屏
+     *
+     * @return 是/否
+     */
+    private boolean isLandscape() {
+        int screenW = ScreenUtils.getScreenWidth(this);
+        int screenH = ScreenUtils.getScreenHeight(this);
+        return screenW > screenH;
+    }
     
 }

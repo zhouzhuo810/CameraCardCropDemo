@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -86,16 +87,41 @@ public class RectView extends View {
         textPaint.setTextSize(textSize);
     }
     
+    /**
+     * 是否横屏
+     *
+     * @return 是/否
+     */
+    private boolean isLandscape() {
+        int screenW = ScreenUtils.getScreenWidth(getContext());
+        int screenH = ScreenUtils.getScreenHeight(getContext());
+        return screenW > screenH;
+    }
+    
     public void setRatioAndPercentOfScreen(int w, int h, float percent) {
-        if (w >= h) {
-            this.width = (int) (ScreenUtils.getScreenWidth(getContext()) * percent);
-            this.height = width * h / w;
+        int screenW = ScreenUtils.getScreenWidth(getContext());
+        int screenH = ScreenUtils.getScreenHeight(getContext());
+        if (screenW > screenH) {
+            //横屏
+            if (w >= h) {
+                this.width = (int) ((ScreenUtils.getScreenWidth(getContext()) - dp2px(120f)) * percent);
+                this.height = width * h / w;
+            } else {
+                this.height = (int) ((ScreenUtils.getScreenHeight(getContext())) * percent);
+                this.width = height * w / h;
+            }
         } else {
-            this.height = (int) ((ScreenUtils.getScreenHeight(getContext()) - dp2px(100f)) * percent);
-            this.width = height * w / h;
+            //竖屏
+            if (w >= h) {
+                this.width = (int) (ScreenUtils.getScreenWidth(getContext()) * percent);
+                this.height = width * h / w;
+            } else {
+                this.height = (int) ((ScreenUtils.getScreenHeight(getContext()) - dp2px(100f)) * percent);
+                this.width = height * w / h;
+            }
         }
         
-        //        Log.e("XXX", "w="+w+",h="+h+",percnet="+percent+",width="+width+",height="+height);
+        // Log.e("XXX", "w=" + w + ",h=" + h + ",percnet=" + percent + ",width=" + width + ",height=" + height);
         invalidate();
     }
     
@@ -124,16 +150,21 @@ public class RectView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (width > 0) {
-            drawBgWithoutRect(canvas);
+            boolean isLand = isLandscape();
+            drawBgWithoutRect(canvas, isLand);
             drawCorner(canvas);
-            drawText(canvas);
+            drawText(canvas, isLand);
         }
     }
     
-    private void drawText(Canvas canvas) {
+    private void drawText(Canvas canvas, boolean isLand) {
         if (hintText != null) {
             float textWidth = textPaint.measureText(hintText);
-            canvas.drawText(hintText, getWidth() / 2.0f - textWidth / 2.0f, topRect.bottom - textSize, textPaint);
+            if (isLand) {
+                canvas.drawText(hintText, (topRect.width() + topOffset) / 2.0f - textWidth / 2.0f, topRect.bottom - textSize, textPaint);
+            } else {
+                canvas.drawText(hintText, getWidth() / 2.0f - textWidth / 2.0f, topRect.bottom - textSize, textPaint);
+            }
         }
     }
     
@@ -163,11 +194,18 @@ public class RectView extends View {
         canvas.drawPath(rightBottom, cornerPaint);
     }
     
-    private void drawBgWithoutRect(Canvas canvas) {
-        topRect = new RectF(0, 0f + topOffset, getWidth(), (getHeight() - height) / 2.0f + topOffset);
-        leftRect = new RectF(0, (getHeight() - height) / 2.0f + topOffset, (getWidth() - width) / 2.0f, (getHeight() + height) / 2.0f + topOffset);
-        rightRect = new RectF((getWidth() + width) / 2.0f, (getHeight() - height) / 2.0f + topOffset, getWidth(), (getHeight() + height) / 2.0f + topOffset);
-        bottomRect = new RectF(0, (getHeight() + height) / 2.0f + topOffset, getWidth(), getHeight());
+    private void drawBgWithoutRect(Canvas canvas, boolean isLand) {
+        if (isLand) {
+            topRect = new RectF(0, 0f, getWidth() + topOffset, (getHeight() - height) / 2.0f);
+            leftRect = new RectF(0, (getHeight() - height) / 2.0f, (getWidth() - width) / 2.0f + topOffset, (getHeight() + height) / 2.0f);
+            rightRect = new RectF((getWidth() + width) / 2.0f + topOffset, (getHeight() - height) / 2.0f, getWidth() + topOffset, (getHeight() + height) / 2.0f);
+            bottomRect = new RectF(0, (getHeight() + height) / 2.0f, getWidth(), getHeight());
+        } else {
+            topRect = new RectF(0, 0f + topOffset, getWidth(), (getHeight() - height) / 2.0f + topOffset);
+            leftRect = new RectF(0, (getHeight() - height) / 2.0f + topOffset, (getWidth() - width) / 2.0f, (getHeight() + height) / 2.0f + topOffset);
+            rightRect = new RectF((getWidth() + width) / 2.0f, (getHeight() - height) / 2.0f + topOffset, getWidth(), (getHeight() + height) / 2.0f + topOffset);
+            bottomRect = new RectF(0, (getHeight() + height) / 2.0f + topOffset, getWidth(), getHeight());
+        }
         canvas.drawRect(topRect, bgPaint);
         canvas.drawRect(leftRect, bgPaint);
         canvas.drawRect(rightRect, bgPaint);
@@ -175,19 +213,27 @@ public class RectView extends View {
     }
     
     public int getCropLeft() {
-        return (int) leftRect.right;
+        return (int) (isLandscape() ? (getHeight() - bottomRect.top) : leftRect.right);
     }
     
     public int getCropTop() {
-        return (int) topRect.bottom;
+        return (int) (isLandscape() ? leftRect.width() : topRect.bottom);
     }
     
     public int getCropWidth() {
-        return (int) (rightRect.left - leftRect.right);
+        if (isLandscape()) {
+            return (int) (bottomRect.top - topRect.bottom);
+        } else {
+            return (int) (rightRect.left - leftRect.right);
+        }
     }
     
     public int getCropHeight() {
-        return (int) (bottomRect.top - topRect.bottom);
+        if (isLandscape()) {
+            return (int) (rightRect.left - leftRect.right);
+        } else {
+            return (int) (bottomRect.top - topRect.bottom);
+        }
     }
     
     public void setCornerColor(int rectCornerColor) {

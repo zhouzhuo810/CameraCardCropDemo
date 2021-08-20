@@ -17,24 +17,24 @@ import me.zhouzhuo810.cameracardcrop.CropActivity;
  * @author zhouzhuo810
  */
 public class MainActivity extends AppCompatActivity {
-
+    
     private ImageView ivPic;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ivPic = (ImageView) findViewById(R.id.iv_pic);
+        
+        ivPic = findViewById(R.id.iv_pic);
     }
-
+    
     public void takePhoto(View v) {
         Intent intent = new Intent(MainActivity.this, CropActivity.class);
-//        intent.putExtra(CameraConfig.RATIO_WIDTH, 855);
-//        intent.putExtra(CameraConfig.RATIO_HEIGHT, 541);
+        //        intent.putExtra(CameraConfig.RATIO_WIDTH, 855);
+        //        intent.putExtra(CameraConfig.RATIO_HEIGHT, 541);
         intent.putExtra(CameraConfig.NEED_WRITE_STORAGE_PERMISSION, false);
-        intent.putExtra(CameraConfig.RATIO_WIDTH, 4);
-        intent.putExtra(CameraConfig.RATIO_HEIGHT, 3);
+        intent.putExtra(CameraConfig.RATIO_WIDTH, 3);
+        intent.putExtra(CameraConfig.RATIO_HEIGHT, 4);
         intent.putExtra(CameraConfig.PERCENT_LARGE, 0.8f);
         intent.putExtra(CameraConfig.MASK_COLOR, 0x2f000000);
         intent.putExtra(CameraConfig.TOP_OFFSET, 0);
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(CameraConfig.IMAGE_PATH, getApplicationContext().getExternalCacheDir().getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg");
         startActivityForResult(intent, 0x01);
     }
-
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -57,6 +57,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
+    
+    
 }

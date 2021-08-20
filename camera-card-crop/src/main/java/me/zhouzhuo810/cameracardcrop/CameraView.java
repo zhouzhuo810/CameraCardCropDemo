@@ -57,9 +57,20 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         Camera.getCameraInfo(CameraUtils.findCameraId(false), info);
         int rotation = info.orientation % 360;
         parameters.setRotation(rotation);
-        camera.setDisplayOrientation(90);
+        camera.setDisplayOrientation(isLandscape() ? 0 : 90);
         parameters.setJpegQuality(100);
         camera.setParameters(parameters);
+    }
+    
+    /**
+     * 是否横屏
+     *
+     * @return 是/否
+     */
+    private boolean isLandscape() {
+        int screenW = ScreenUtils.getScreenWidth(getContext());
+        int screenH = ScreenUtils.getScreenHeight(getContext());
+        return screenW > screenH;
     }
 
     public CameraView(Context context, AttributeSet attrs) {
