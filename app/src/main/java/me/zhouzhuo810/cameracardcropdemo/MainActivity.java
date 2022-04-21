@@ -30,11 +30,11 @@ public class MainActivity extends AppCompatActivity {
     
     public void takePhoto(View v) {
         Intent intent = new Intent(MainActivity.this, CropActivity.class);
-        //        intent.putExtra(CameraConfig.RATIO_WIDTH, 855);
-        //        intent.putExtra(CameraConfig.RATIO_HEIGHT, 541);
+        intent.putExtra(CameraConfig.RATIO_WIDTH, 855);
+        intent.putExtra(CameraConfig.RATIO_HEIGHT, 541);
         intent.putExtra(CameraConfig.NEED_WRITE_STORAGE_PERMISSION, false);
-        intent.putExtra(CameraConfig.RATIO_WIDTH, 3);
-        intent.putExtra(CameraConfig.RATIO_HEIGHT, 4);
+//        intent.putExtra(CameraConfig.RATIO_WIDTH, 3);
+//        intent.putExtra(CameraConfig.RATIO_HEIGHT, 4);
         intent.putExtra(CameraConfig.PERCENT_LARGE, 0.8f);
         intent.putExtra(CameraConfig.MASK_COLOR, 0x2f000000);
         intent.putExtra(CameraConfig.TOP_OFFSET, 0);

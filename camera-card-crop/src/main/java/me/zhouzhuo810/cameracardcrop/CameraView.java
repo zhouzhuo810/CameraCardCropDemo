@@ -37,18 +37,22 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    private void initCamera(Camera camera) throws Exception{
+    private void initCamera(Camera camera) throws Exception {
         Camera.Parameters parameters = camera.getParameters();
         List<Camera.Size> previewSizes = parameters.getSupportedPreviewSizes();
+        int width = ScreenUtils.getScreenWidth(getContext());
+        int height = ScreenUtils.getScreenHeight(getContext());
+        int min = Math.min(width, height);
+        int max = Math.max(width, height);
         for (Camera.Size size : previewSizes) {
-            if (size.width / 16 == size.height / 9) {
+            if (size.width / max == size.height / min) {
                 parameters.setPreviewSize(size.width, size.height);
                 break;
             }
         }
         List<Camera.Size> pictureSizes = parameters.getSupportedPictureSizes();
         for (Camera.Size size : pictureSizes) {
-            if (size.width / 16 == size.height / 9) {
+            if (size.width / max == size.height / min) {
                 parameters.setPictureSize(size.width, size.height);
                 break;
             }
@@ -61,7 +65,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         parameters.setJpegQuality(100);
         camera.setParameters(parameters);
     }
-    
+
     /**
      * 是否横屏
      *

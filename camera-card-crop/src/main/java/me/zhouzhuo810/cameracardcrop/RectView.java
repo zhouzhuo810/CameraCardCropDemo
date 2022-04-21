@@ -121,7 +121,6 @@ public class RectView extends View {
             }
         }
         
-        // Log.e("XXX", "w=" + w + ",h=" + h + ",percnet=" + percent + ",width=" + width + ",height=" + height);
         invalidate();
     }
     
@@ -149,6 +148,7 @@ public class RectView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        Log.e("width", width+"");
         if (width > 0) {
             boolean isLand = isLandscape();
             drawBgWithoutRect(canvas, isLand);

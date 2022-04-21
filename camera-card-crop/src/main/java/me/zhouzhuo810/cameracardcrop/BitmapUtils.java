@@ -42,9 +42,9 @@ public class BitmapUtils {
         int degrees = getExifRotateDegree(filePath);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
-        Bitmap photo = BitmapFactory.decodeByteArray(data, 0, data.length,options);
+        Bitmap photo = BitmapFactory.decodeByteArray(data, 0, data.length, options);
         //图片竖屏
-        photo = rotateBitmap(photo,degrees);
+        photo = rotateBitmap(photo, degrees);
         int scW = ScreenUtils.getScreenWidth(context);
         int scH = ScreenUtils.getScreenHeight(context);
         if (scW > scH) {
@@ -52,10 +52,16 @@ public class BitmapUtils {
             scW = scH;
             scH = c;
         }
-        float ratio = scW  * 1.0f / photo.getWidth();
-        photo = Bitmap.createScaledBitmap(photo, (int)(photo.getWidth() * ratio), (int)(photo.getHeight() *ratio), true);
-        if (isNeedCut) {
-            photo = Bitmap.createBitmap(photo, rectLeft*photo.getWidth()/scW, rectTop* photo.getHeight() / scH , rectWidth*photo.getWidth()/scW, rectHeight* photo.getHeight() / scH);
+        //减去状态栏的高度
+        int statusBarHeight = (int) Math.ceil(20 * context.getResources().getDisplayMetrics().density);
+        scH = scH - statusBarHeight;
+        //将图片宽度缩放到屏幕宽度一致
+        float ratio = scW * 1.0f / photo.getWidth();
+        photo = Bitmap.createScaledBitmap(photo, (int) (photo.getWidth() * ratio), (int) (photo.getHeight() * ratio), true);
+        if (isNeedCut && rectLeft > 0) {
+            float widthScale = photo.getWidth() * 1.0f / scW;
+            float heightScale = photo.getHeight() * 1.0f / scH;
+            photo = Bitmap.createBitmap(photo, (int) (rectLeft * widthScale), (int) (rectTop * heightScale), (int) (rectWidth * widthScale), (int) (rectHeight * heightScale));
         }
         if (photo != null) {
             compressImageToFile(photo, file);
@@ -66,10 +72,10 @@ public class BitmapUtils {
 
     }
 
-    private static int getExifRotateDegree(String path){
+    private static int getExifRotateDegree(String path) {
         try {
             ExifInterface exifInterface = new ExifInterface(path);
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
             return getExifRotateDegrees(orientation);
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,7 +121,7 @@ public class BitmapUtils {
     }
 
 
-    public static void compressImageToFile(Bitmap bmp,File file) {
+    public static void compressImageToFile(Bitmap bmp, File file) {
         int options = 100;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, options, baos);
