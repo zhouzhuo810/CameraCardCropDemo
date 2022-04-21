@@ -12,7 +12,7 @@
 	}
 
 	dependencies {
-	        implementation 'com.github.zhouzhuo810:CameraCardCropDemo:1.0.7'
+	        implementation 'com.github.zhouzhuo810:CameraCardCropDemo:1.0.8'
 	}
 ```
 
